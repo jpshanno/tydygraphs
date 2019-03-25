@@ -1,6 +1,10 @@
 ---
 bibliography: "references.bib"
-output: html_document
+title: "tydygraphs"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
 ---
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
@@ -17,7 +21,6 @@ library(knitcitations)
 library(tidyverse)
 cite_options(citation_format = "pandoc")
 ```
-# tydygraphs
 _(tie-dye graphs)_
 
 Long time series datasets can be difficult to plot and examine using static
@@ -48,6 +51,7 @@ install.packages(sub(".zip$", "", tydygraphs_source),
                  type = "source")
 
 ```
+## Use
 
 ### A Simple Example
 
@@ -111,8 +115,9 @@ the documentation for [dygraphs](https://rstudio.github.io/dygraphs/).
 
 ## Future Plans
 - Automatic detection of time columns if `time = NULL`
+- Add unit tests
 
-## References
+### References
 ```{r message=FALSE, include=FALSE}
 write.bibtex(file="references.bib")
 RefManageR::PrintBibliography(read.bibtex(file = "references.bib"))
