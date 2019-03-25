@@ -1,0 +1,119 @@
+---
+bibliography: "references.bib"
+output: html_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+
+library(knitcitations)
+library(tidyverse)
+cite_options(citation_format = "pandoc")
+```
+# tydygraphs
+_(tie-dye graphs)_
+
+Long time series datasets can be difficult to plot and examine using static
+figures. Interactive plots using the
+[dygraphs](https://rstudio.github.io/dygraphs/) package are a great tool but are
+currently not easily implemented for tidy data. This package provides methods
+for `dygraph()` to make it easier to plot tidy time series. Currently there are
+methods for dataframes and tibbles, grouped tibbles, and tsibbles. 
+
+## Installation
+
+Currently tydygraphs is only available on GitHub. You can install the current
+development version using [remotes](https://remotes.r-lib.org/) or by
+downloading and building from source:
+
+``` r
+# Install using remotes
+remotes::install_github("jpshanno/tydygraphs")
+
+# or from source
+tydygraphs_source <- file.path(tempdir(), "tydygraphs-master.zip")
+download.file("https://github.com/jpshanno/tydygraphs/archive/master.zip",
+              tydygraphs_source)
+unzip(tydygraphs_source,
+      exdir = dirname(tydygraphs_source))
+install.packages(sub(".zip$", "", tydygraphs_source), 
+                 repos = NULL,
+                 type = "source")
+
+```
+
+### A Simple Example
+
+The dataset `great_lakes_hydro` included in tydygraphs demonstrates the problems
+with examing long-term time series datasets and the benefits of using dygraphs.
+The dataset consists of monthly water levels, precipitation, evaporation,
+discharge from, and runoff into Lake Superior and the combined Lakes Michigan
+and Huron. The data were downloaded from [NOAA's Great Lakes Dashboard
+Project](https://www.glerl.noaa.gov//data/dashboard/portal.html) `r citep("10.1016/j.envsoft.2015.12.005")`
+
+```{r show-data}
+library(tydygraphs)
+great_lakes_hydro
+```
+
+Let's start simple and show how the we can use the function for a single time
+series by filtering and supplying just a single variable to `dygraph`. (Note
+that if we created a [tsibble](https://tsibble.tidyverts.org/), we wouldn't have
+to specify the time column.)
+
+```{r example}
+great_lakes_hydro %>% 
+  filter(lake == "Superior") %>% 
+  dygraph(time = measurement_date,
+          water_level_m)
+```
+
+### Adding More Series
+And if you noticed in the data, all of the other variables are expressed in
+millimeters, but because tydygraphs is built on top of dygraphs we can easily
+add two a second y-axis to look at precipitation in the same plot. This plot
+also makes it pretty clear why a tool like dygraphs is great for long time
+series. When the entire dataset is displayed it is nearly useless for
+exploratory analysis or diagnostics, but now we have the ability to zoom in on
+periods of interest.
+
+```{r example-2}
+great_lakes_hydro %>% 
+  filter(lake == "Superior") %>% 
+  dygraph(time = measurement_date,
+          water_level_m,
+          precip_mm) %>% 
+  dySeries("precip_mm", axis = 'y2') %>% 
+  dyLegend(labelsSeparateLines = TRUE)
+```
+
+### Working with Grouped Data
+
+And the final example is showing how we can plot our tidy data by passing a 
+grouped tibble to `dygraph()`.
+
+```{r example-3}
+great_lakes_hydro %>% 
+  group_by(lake) %>% 
+  dygraph(time = measurement_date,
+          water_level_m)
+```
+
+There are lots of ways to customize dygraphs and I highly recommend looking at
+the documentation for [dygraphs](https://rstudio.github.io/dygraphs/).
+
+## Future Plans
+- Automatic detection of time columns if `time = NULL`
+
+## References
+```{r message=FALSE, include=FALSE}
+write.bibtex(file="references.bib")
+RefManageR::PrintBibliography(read.bibtex(file = "references.bib"))
+```

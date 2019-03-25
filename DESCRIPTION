@@ -1,0 +1,32 @@
+Package: tydygraphs
+Type: Package
+Title: Interactive dygraphs from Tidy Time-series Data
+Version: 0.5.0
+Authors@R: person("Joe", "Shannon", email = "jpshanno@mtu.edu", role = c("aut", "cre"))
+Description: Long time series datasets can be difficult to plot and examine using
+    static figures. Interactive plots using the dygraphs package are a great tool
+    but are currently not easily implemented for tidy data. This package provides
+    methods for dygraph() to make it easier to plot tidy time series.
+License: file LICENSE
+Encoding: UTF-8
+LazyData: true
+URL: https://github.com/jpshanno/tydygraphs
+BugReports: https://github.com/jpshanno/tydygraphs/issues
+Depends:
+  R (>= 2.10),
+  dygraphs
+Imports:
+  dplyr,
+  lubridate,
+  magrittr,
+  purrr,
+  rlang,
+  stringr,
+  tibble,
+  tidyr,
+  xts
+Language: en-US
+Suggests: 
+  spelling,
+  tsibble
+RoxygenNote: 6.1.1

@@ -1,0 +1,24 @@
+#' Prices of 50,000 round cut diamonds.
+#'
+#' The dataset consists of monthly water levels, precipitation, evaporation,
+#' discharge from, and runoff into Lake Superior and the combined Lakes Michigan
+#' and Huron.
+#'
+#' Smith, Joeseph P., Timothy S. Hunter, Anne H. Clites, Craig A. Stow, Tad
+#' Slawecki, Glenn C. Muhr, and Andrew D. Gronewold. 2016. “An Expandable
+#' Web-Based Platform for Visually Analyzing Basin-Scale Hydro-Climate Time
+#' Series Data.” Environmental Modelling & Software 78 (April). Elsevier BV:
+#' 97–105. https://doi.org/10.1016/j.envsoft.2015.12.005.
+#'
+#' @format A tibble with 1535 rows and 7 variables:
+#' \describe{
+#'   \item{lake}{name of the lake(s)}
+#'   \item{measurement_date}{month of measurement, stored as a date}
+#'   \item{water_level_m}{water level (m) at the master gauge of the lake}
+#'   \item{precip_mm}{precipitation in millimeters of depth over the surface of the lake}
+#'   \item{evaporation_mm}{evaporation in millimeters of depth over the surface of the lake}
+#'   \item{discharge_mm}{discharge from the lake in millimeters of depth over the surface of the lake}
+#'   \item{runoff_mm}{runoff into the lake in millimeters of depth over the surface of the lake}
+#' }
+#' @source \url{https://www.glerl.noaa.gov//data/dashboard/portal.html}
+"great_lakes_hydro"
