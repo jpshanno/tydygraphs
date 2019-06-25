@@ -104,6 +104,9 @@ dygraph.grouped_df <-
                     dplyr::select(!!time,
                                   series,
                                   !!.x) %>%
+                    dplyr::distinct(!!time,
+                                    series,
+                                    .keep_all = TRUE) %>%
                     tidyr::spread(series,
                                   !!.x,
                                   sep = "_") %>%
@@ -151,6 +154,9 @@ dygraph.tbl_ts <-
                     dplyr::select(!!time,
                                   series,
                                   !!.x) %>%
+                    dplyr::distinct(!!time,
+                                    series,
+                                    .keep_all = TRUE) %>%
                     tidyr::spread(series,
                                   !!.x,
                                   sep = "_") %>%
