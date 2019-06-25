@@ -26,7 +26,7 @@
 #' @export
 #'
 dygraph <-
-  function(data, ...){
+  function(data, ..., time = NULL){
 
     UseMethod("dygraph", data)
   }
@@ -42,10 +42,20 @@ dygraph.default <-
 #' @export
 dygraph.data.frame <-
   function(data,
-           time,
-           ...) {
+           ...,
+           time = NULL) {
+
     time <-
       rlang::enquo(time)
+
+    if(rlang::quo_is_null(time)){
+      time <-
+        purrr::map_lgl(data,
+                       lubridate::is.timepoint) %>%
+        purrr::keep(isTRUE) %>%
+        names() %>%
+        rlang::sym()
+    }
 
     measures <-
       rlang::enquos(...)
@@ -74,11 +84,20 @@ dygraph.data.frame <-
 #' @export
 dygraph.grouped_df <-
   function(data,
-           time,
-           ...) {
+           ...,
+           time = NULL) {
 
     time <-
       rlang::enquo(time)
+
+    if(rlang::quo_is_null(time)){
+      time <-
+        purrr::map_lgl(data,
+                       lubridate::is.timepoint) %>%
+        purrr::keep(isTRUE) %>%
+        names() %>%
+        rlang::sym()
+    }
 
     measures <-
       rlang::enquos(...)

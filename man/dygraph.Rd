@@ -8,13 +8,13 @@
 \alias{dygraph.tbl_ts}
 \title{Methods for creating dygraphs from tidy data}
 \usage{
-dygraph(data, ...)
+dygraph(data, ..., time = NULL)
 
 \method{dygraph}{default}(data, ...)
 
-\method{dygraph}{data.frame}(data, time, ...)
+\method{dygraph}{data.frame}(data, ..., time = NULL)
 
-\method{dygraph}{grouped_df}(data, time, ...)
+\method{dygraph}{grouped_df}(data, ..., time = NULL)
 
 \method{dygraph}{tbl_ts}(data, ...)
 }

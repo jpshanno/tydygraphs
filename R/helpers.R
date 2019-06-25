@@ -15,3 +15,20 @@ as_xts <-
                tzone = tzone)
     }
   }
+
+
+# fetch_time <-
+#   function(d, t){
+#
+#     time <-
+#       rlang::enquo(t)
+#
+#     if(rlang::quo_is_null(time)){
+#       time <-
+#         purrr::map_lgl(d,
+#                        lubridate::is.timepoint) %>%
+#         purrr::keep(isTRUE) %>%
+#         names() %>%
+#         rlang::sym()
+#     }
+#   }
