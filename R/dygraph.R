@@ -54,6 +54,7 @@ dygraph.data.frame <-
                        lubridate::is.timepoint) %>%
         purrr::keep(isTRUE) %>%
         names() %>%
+        .[1] %>%
         rlang::sym()
     }
 
@@ -96,6 +97,7 @@ dygraph.grouped_df <-
                        lubridate::is.timepoint) %>%
         purrr::keep(isTRUE) %>%
         names() %>%
+        .[1] %>%
         rlang::sym()
     }
 
