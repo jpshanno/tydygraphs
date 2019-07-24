@@ -17,7 +17,9 @@
 #' measures are passed to the function.
 #'
 #' @param data The data
-#' @param time The unquoted column name containing the time index
+#' @param time The unquoted column name containing the time index. If not
+#'   supplied the first column identified by
+#'   \code{\link[lubridate]{is.timepoint}} will be used
 #' @param ... Unquoted column name(s) of the desired series and any named
 #'   arguments to \code{\link[dygraphs]{dygraph}}
 #'

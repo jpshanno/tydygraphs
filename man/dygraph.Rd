@@ -24,7 +24,9 @@ dygraph(data, ..., time = NULL)
 \item{...}{Unquoted column name(s) of the desired series and any named
 arguments to \code{\link[dygraphs]{dygraph}}}
 
-\item{time}{The unquoted column name containing the time index}
+\item{time}{The unquoted column name containing the time index. If not
+supplied the first column identified by
+\code{\link[lubridate]{is.timepoint}} will be used}
 }
 \value{
 An interactive dygraph plot that can be modified with any other the
