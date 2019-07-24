@@ -68,15 +68,13 @@ great_lakes_hydro
 ```
 
 Let's start simple and show how the we can use the function for a single time
-series by filtering and supplying just a single variable to `dygraph`. (Note
-that if we created a [tsibble](https://tsibble.tidyverts.org/), we wouldn't have
-to specify the time column.)
+series by filtering and supplying just a single variable to `dygraph`. The first
+column representing a time series will be used if nothing is supplied for `time`.
 
 ```{r example}
 great_lakes_hydro %>% 
   filter(lake == "Superior") %>% 
-  dygraph(time = measurement_date,
-          water_level_m)
+  dygraph(water_level_m)
 ```
 
 ### Adding More Series
@@ -89,12 +87,44 @@ exploratory analysis or diagnostics, but now we have the ability to zoom in on
 periods of interest.
 
 ```{r example-2}
-great_lakes_hydro %>% 
+two_variables <- 
+  great_lakes_hydro %>% 
   filter(lake == "Superior") %>% 
-  dygraph(time = measurement_date,
-          water_level_m,
-          precip_mm) %>% 
-  dySeries("precip_mm", axis = 'y2') %>% 
+  dygraph(precip_mm,
+          water_level_m) %>% 
+  dySeries("precip_mm", 
+           axis = 'y2')
+
+two_variables
+```
+
+### Making it Look Nice
+
+If we wanted to use this plot in something like a Shiny application or a blog
+post we could build even more using the dygraphs customizations. The chunk below
+makes precipitation into a step plot, adds a border around the water level
+series, and starts the plot zoomed in on a period of interest.
+
+There are lots of ways to customize dygraphs and I highly recommend looking at
+the documentation for [dygraphs](https://rstudio.github.io/dygraphs/).
+
+```{r example-3}
+# Start with the plot from above
+two_variables %>% 
+  # Modify precipitation to make a filled step plot with no border by adjusting
+  # the strokePattern
+  dySeries("precip_mm",
+           axis = "y2",
+           stepPlot = TRUE,
+           fillGraph = TRUE,
+           color = "dodgerblue",
+           strokePattern = c(0,1)) %>%
+  # Modify water level to add a white border around the line to ensure it stands
+  # out from precipitation
+  dySeries("water_level_m",
+           strokeBorderWidth = 2,
+           color = "darkblue") %>%  
+  dyRangeSelector(dateWindow = c("2000-01-01", "2010-01-01")) %>% 
   dyLegend(labelsSeparateLines = TRUE)
 ```
 
@@ -103,18 +133,15 @@ great_lakes_hydro %>%
 And the final example is showing how we can plot our tidy data by passing a 
 grouped tibble to `dygraph()`.
 
-```{r example-3}
+```{r example-4}
 great_lakes_hydro %>% 
   group_by(lake) %>% 
-  dygraph(time = measurement_date,
-          water_level_m)
+  dygraph(water_level_m)
 ```
 
-There are lots of ways to customize dygraphs and I highly recommend looking at
-the documentation for [dygraphs](https://rstudio.github.io/dygraphs/).
+
 
 ## Future Plans
-- Automatic detection of time columns if `time = NULL`
 - Add unit tests
 
 ### References
